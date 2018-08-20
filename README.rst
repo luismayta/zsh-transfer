@@ -3,7 +3,7 @@ zsh-transfer
 
 |Build Status| |GitHub issues| |GitHub license|
 
-:Version: 0.0.0
+:Version: 0.1.0
 :Web: https://github.com/luismayta/zsh-transfer
 :Download: http://github.com/luismayta/zsh-transfer
 :Source: http://github.com/luismayta/zsh-transfer

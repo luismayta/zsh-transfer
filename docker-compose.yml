@@ -1,0 +1,14 @@
+# Docker Compose
+# https://docs.docker.com/compose/
+# Usage: docker-compose up
+
+version: '3'
+services:
+
+  app:
+    environment: &environment
+      - ENVIRONMENT=local
+    volumes:
+      - .:/usr/src
+    env_file:
+      - .env

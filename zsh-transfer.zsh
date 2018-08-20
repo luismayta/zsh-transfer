@@ -15,7 +15,6 @@ if [ $? -ne 0 ]; then
 fi
 
 transfer() {
-    local curl="curl --progress-bar --upload-file"
     if [ $# -eq 0 ];
     then
         echo "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
@@ -39,13 +38,13 @@ transfer() {
         then
             zipfile=$( mktemp -t transferXXX.zip )
             cd $(dirname $file) && zip -r -q - $(basename $file) >> $zipfile
-            $curl "$zipfile" "https://transfer.sh/$basefile.zip" >> $tmpfile
+            curl --progress-bar --upload-file "$zipfile" "https://transfer.sh/$basefile.zip" >> $tmpfile
             rm -f "$zipfile"
         else
-            $curl "$file" "https://transfer.sh/$basefile" >> $tmpfile
+            curl --progress-bar --upload-file "$file" "https://transfer.sh/$basefile" >> $tmpfile
         fi
     else
-        $curl "-" "https://transfer.sh/$file" >> $tmpfile
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$file" >> $tmpfile
     fi
 
     # cat output link

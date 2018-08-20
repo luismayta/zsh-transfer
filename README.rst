@@ -54,6 +54,19 @@ install this plugin by doing the following:
    running zsh session.
 3. Enjoy!
 
+`antibody <https://github.com/getantibody/antibody>`__ users
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you're using `Antigen <https://github.com/getantibody/antibody>`__,
+install this plugin by doing the following:
+
+1. Add ``antibody bundle luismayta/zsh-transfer`` to your
+   ``.zshrc`` where you're adding your other plugins.
+2. Either open a new terminal to force zsh to load the new plugin, or
+   run ``antibody bundle luismayta/zsh-transfer`` in a
+   running zsh session.
+3. Enjoy!
+
 License
 -------
 

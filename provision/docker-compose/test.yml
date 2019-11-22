@@ -1,13 +1,14 @@
-# zsh-transfer: Docker Compose
+# Docker Compose
 # https://docs.docker.com/compose/
 #
 # Usage: test up
-version: '3'
-services:
 
+version: '3.6'
+services:
   app:
+    image: zsh-transfer-app-test
     environment: &environment
-      - APP_NAME=zsh-transfer
+      - STAGE=testing
     build:
-      context: .
-      dockerfile: docker/app-test/Dockerfile
+      args:
+        stage: test

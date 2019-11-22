@@ -22,10 +22,10 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-transfer() {
+function transfer {
     if [ $# -eq 0 ];
     then
-        echo "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
+        message_error "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
         return 1
     fi
 
@@ -38,7 +38,7 @@ transfer() {
 
         if [ ! -e "${file}" ];
         then
-            echo "File ${file} doesn't exists."
+            message_error "File ${file} doesn't exists."
             return 1
         fi
 

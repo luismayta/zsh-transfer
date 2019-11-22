@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env ksh
 # -*- coding: utf-8 -*-
 
 #
@@ -8,16 +8,24 @@
 #   Luis Mayta <slovacus@gmail.com>
 #
 
+plugin_dir=$(dirname "${0}":A)
+
+# shellcheck source=/dev/null
+source "${plugin_dir}"/src/helpers/messages.zsh
+
+# shellcheck source=/dev/null
+source "${plugin_dir}"/src/helpers/tools.zsh
+
 curl --version 2>&1 > /dev/null
 if [ $? -ne 0 ]; then
-    echo "Could not find curl."
+    message_error "Could not find curl."
     return 1
 fi
 
-transfer() {
+function transfer {
     if [ $# -eq 0 ];
     then
-        echo "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
+        message_error "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
         return 1
     fi
 
@@ -26,30 +34,30 @@ transfer() {
 
     if tty -s;
     then
-        basefile=$(basename "$file" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+        basefile=$(basename "${file}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
 
-        if [ ! -e $file ];
+        if [ ! -e "${file}" ];
         then
-            echo "File $file doesn't exists."
+            message_error "File ${file} doesn't exists."
             return 1
         fi
 
-        if [ -d $file ];
+        if [ -d "${file}" ];
         then
             zipfile=$( mktemp -t transferXXX.zip )
-            cd $(dirname $file) && zip -r -q - $(basename $file) >> $zipfile
-            curl --progress-bar --upload-file "$zipfile" "https://transfer.sh/$basefile.zip" >> $tmpfile
-            rm -f "$zipfile"
+            cd $(dirname "${file}") && zip -r -q - $(basename "${file}") >> "${zipfile}"
+            curl --progress-bar --upload-file "${zipfile}" "https://transfer.sh/${basefile}.zip" >> "${tmpfile}"
+            rm -f "${zipfile}"
         else
-            curl --progress-bar --upload-file "$file" "https://transfer.sh/$basefile" >> $tmpfile
+            curl --progress-bar --upload-file "${file}" "https://transfer.sh/${basefile}" >> "${tmpfile}"
         fi
     else
-        curl --progress-bar --upload-file "-" "https://transfer.sh/$file" >> $tmpfile
+        curl --progress-bar --upload-file "-" "https://transfer.sh/${file}" >> "${tmpfile}"
     fi
 
     # cat output link
-    cat $tmpfile
+    cat "${tmpfile}"
 
     # cleanup
-    rm -f $tmpfile
+    rm -f "${tmpfile}"
 }

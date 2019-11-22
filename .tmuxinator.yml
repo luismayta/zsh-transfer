@@ -1,6 +1,6 @@
 # ~/.tmuxinator/zsh-transfer.yml
 name: zsh-transfer
-root: <%= ENV["PROJECTS"] %>/zsh/zsh-transfer
+root: ./
 # Optional tmux socket
 # socket_name: foo
 
@@ -25,7 +25,7 @@ on_project_exit: make docker.down
 on_project_stop: make docker.down
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: pyenv activate zsh-transfer
+pre_window: pipenv shell --fancy
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -47,16 +47,6 @@ windows:
       layout: main-vertical
       panes:
         - ipython:
-  - databases:
-      layout: main-vertical
-      panes:
-        - postgresql:
-        - ls:
-  - aws:
-      layout: main-vertical
-      panes:
-        - webserver:
-        - databases:
   - docker:
       layout: main-vertical
       panes:

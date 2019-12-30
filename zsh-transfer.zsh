@@ -35,8 +35,8 @@ function transfer {
 
         if [ -d "${file}" ];
         then
-            zipfile=$( mktemp -t transferXXX.zip )
-            cd "$(dirname "${file}")" && zip -r -q - $(basename "${file}") >> "${zipfile}"
+            zipfile="$( mktemp -t transferXXX.zip )"
+            cd "$(dirname "${file}")" && zip -r -q - "$(basename "${file}")" >> "${zipfile}"
             curl --progress-bar --upload-file "${zipfile}" "https://transfer.sh/${basefile}.zip" >> "${tmpfile}"
             rm -f "${zipfile}"
         else

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+out/
+.serverless/
+.serverless_nextjs
+.next/
+storybook-static/
+__snapshots__/
+prettier.config.js
+jest.config.js

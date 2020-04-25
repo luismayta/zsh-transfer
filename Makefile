@@ -18,10 +18,13 @@ else
 endif
 
 TEAM := private
+AWS_VAULT ?= luismayta
 PROJECT := zsh-transfer
-PROJECT_PORT := 8000
+PROJECT_PORT := 3000
 
 PYTHON_VERSION=3.8.0
+NODE_VERSION=v12.14.1
+TERRAFORM_VERSION=0.12.20
 PYENV_NAME="${PROJECT}"
 
 # Configuration.
@@ -33,12 +36,7 @@ SOURCE_DIR=$(ROOT_DIR)/
 PROVISION_DIR:=$(ROOT_DIR)/provision
 FILE_README:=$(ROOT_DIR)/README.rst
 KEYBASE_VOLUME_PATH ?= /Keybase
-KEYBASE_PATH ?= ${KEYBASE_VOLUME_PATH}/team/${TEAM}
-KEYS_PEM_DIR:=${KEYBASE_PATH}/pem
-KEYS_KEY_DIR:=${KEYBASE_PATH}/key
-KEYS_PUB_DIR:=${KEYBASE_PATH}/pub
-KEYS_PRIVATE_DIR:=${KEYBASE_PATH}/private/key_file/${PROJECT}
-PASSWORD_DIR:=${KEYBASE_PATH}/password
+KEYBASE_PATH ?= ${KEYBASE_VOLUME_PATH}/team/${TEAM}/projects/${PROJECT}
 
 PATH_DOCKER_COMPOSE:=docker-compose.yml -f provision/docker-compose
 
@@ -67,9 +65,13 @@ help:
 	@make docker.help
 	@make docs.help
 	@make test.help
+	@make keybase.help
+	@make utils.help
 
 setup:
 	@echo "=====> install packages..."
+	pyenv local ${PYTHON_VERSION}
+	yarn
 	$(PIPENV_INSTALL) --dev --skip-lock
 	$(PIPENV_RUN) pre-commit install
 	$(PIPENV_RUN) pre-commit install -t pre-push
@@ -79,5 +81,7 @@ setup:
 
 environment:
 	@echo "=====> loading virtualenv ${PYENV_NAME}..."
-	@pipenv --venv || $(PIPENV_INSTALL) --skip-lock --python=${PYTHON_VERSION}
+	pyenv local ${PYTHON_VERSION}
+	make keybase.setup
+	@pipenv --venv || $(PIPENV_INSTALL) --python=${PYTHON_VERSION} --skip-lock
 	@echo ${MESSAGE_HAPPY}

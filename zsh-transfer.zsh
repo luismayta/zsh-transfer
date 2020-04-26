@@ -7,48 +7,43 @@
 # Authors:
 #   Luis Mayta <slovacus@gmail.com>
 #
+#
+TRANSFER_PLUGIN_DIR="$(dirname "${0}")"
+TRANSFER_SOURCE_PATH="${TRANSFER_PLUGIN_DIR}"/src
+TRANSFER_BACKEND_PATH="${TRANSFER_SOURCE_PATH}"/backend
 
-if ! type -p curl > /dev/null; then
-    message_warning "Could not find curl."
-    return 1
-fi
+export TRANSFER_MESSAGE_BREW="Please install brew or use antibody bundle luismayta/zsh-brew branch:develop"
+export TRANSFER_MESSAGE_NOT_FOUND="this not found installed"
 
-function transfer {
-    if [ $# -eq 0 ];
-    then
-        message_warning "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
-        return 1
-    fi
+[ -z "${TRANSFER_REPOSITORY}" ] && export TRANSFER_REPOSITORY="https://transfer.sh"
 
-    tmpfile="$( mktemp -t transferXXX )"
-    file="${1}"
+# shellcheck source=/dev/null
+source "${TRANSFER_SOURCE_PATH}"/base.zsh
 
-    if tty -s;
-    then
-        basefile="$(basename "${file}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')"
+# shellcheck source=/dev/null
+source "${TRANSFER_SOURCE_PATH}"/utils.zsh
 
-        if [ ! -e "${file}" ];
-        then
-            message_warning "File ${file} doesn't exists."
-            return 1
-        fi
+# cross::os functions for osx and linux
+function cross::os {
 
-        if [ -d "${file}" ];
-        then
-            zipfile="$( mktemp -t transferXXX.zip )"
-            cd "$(dirname "${file}")" && zip -r -q - "$(basename "${file}")" >> "${zipfile}"
-            curl --progress-bar --upload-file "${zipfile}" "https://transfer.sh/${basefile}.zip" >> "${tmpfile}"
-            rm -f "${zipfile}"
-        else
-            curl --progress-bar --upload-file "${file}" "https://transfer.sh/${basefile}" >> "${tmpfile}"
-        fi
-    else
-        curl --progress-bar --upload-file "-" "https://transfer.sh/${file}" >> "${tmpfile}"
-    fi
+    case "${OSTYPE}" in
+        darwin*)
+            # shellcheck source=/dev/null
+            source "${TRANSFER_SOURCE_PATH}"/darwin.zsh
+            ;;
+        linux*)
+            # shellcheck source=/dev/null
+            source "${TRANSFER_SOURCE_PATH}"/linux.zsh
+            ;;
+    esac
 
-    # cat output link
-    cat "${tmpfile}"
-
-    # cleanup
-    rm -f "${tmpfile}"
 }
+
+cross::os
+
+function transfer::factory {
+    # shellcheck source=/dev/null
+    source "${TRANSFER_BACKEND_PATH}"/s3.zsh
+}
+
+transfer::factory

@@ -7,5 +7,3 @@ out/
 .next/
 storybook-static/
 __snapshots__/
-prettier.config.js
-jest.config.js

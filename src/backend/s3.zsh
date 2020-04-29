@@ -38,19 +38,13 @@ function transfer::file::convert {
 
 # Defines transfer alias and provides easy command line file and folder sharing.
 function transfer {
-    local tmpfile file
+    local file
     if [ $# -eq 0 ]; then
         message_warning "No arguments specified. Usage:\ntransfer /tmp/file.rst\ncat /tmp/file.rst | transfer file.rst"
         return
     fi
-    tmpfile="$( mktemp -t transferXXX )"
     file=$(transfer::file::convert "${1}")
-    aws s3 cp "${file}" "${TRANSFER_REPOSITORY}" --acl public-read >> "${tmpfile}"
-
-    # cat output link
-    cat "${tmpfile}"
-    # cleanup
-    rm -rf "${tmpfile}"
+    aws s3 cp "${file}" "${TRANSFER_REPOSITORY}" --acl public-read
 }
 
 transfer::validation

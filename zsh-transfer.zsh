@@ -19,7 +19,7 @@ export TRANSFER_ASYNC_NAME="transfer_worker"
 [ -z "${TRANSFER_REPOSITORY}" ] && export TRANSFER_REPOSITORY="https://transfer.sh"
 
 # shellcheck source=/dev/null
-source "${TRANSFER_SRC_DIR}"/async.zsh
+source "${TRANSFER_SOURCE_PATH}"/async.zsh
 
 # shellcheck source=/dev/null
 source "${TRANSFER_SOURCE_PATH}"/base.zsh

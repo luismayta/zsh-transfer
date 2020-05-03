@@ -25,6 +25,9 @@ source "${TRANSFER_SOURCE_PATH}"/async.zsh
 source "${TRANSFER_SOURCE_PATH}"/base.zsh
 
 # shellcheck source=/dev/null
+source "${TRANSFER_SOURCE_PATH}"/validation.zsh
+
+# shellcheck source=/dev/null
 source "${TRANSFER_SOURCE_PATH}"/utils.zsh
 
 # cross::os functions for osx and linux

@@ -14,8 +14,12 @@ TRANSFER_BACKEND_PATH="${TRANSFER_SOURCE_PATH}"/backend
 
 export TRANSFER_MESSAGE_BREW="Please install brew or use antibody bundle luismayta/zsh-brew branch:develop"
 export TRANSFER_MESSAGE_NOT_FOUND="this not found installed"
+export TRANSFER_ASYNC_NAME="transfer_worker"
 
 [ -z "${TRANSFER_REPOSITORY}" ] && export TRANSFER_REPOSITORY="https://transfer.sh"
+
+# shellcheck source=/dev/null
+source "${TRANSFER_SRC_DIR}"/async.zsh
 
 # shellcheck source=/dev/null
 source "${TRANSFER_SOURCE_PATH}"/base.zsh

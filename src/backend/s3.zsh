@@ -27,7 +27,7 @@ function transfer::file::convert {
 
     if [ -d "${file}" ]; then
         zipfile=$( mktemp -t "${slugfile}".zip )
-        cd "$(dirname "${file}")" && zip -r -q - "$(basename "${file}")" >> "${zipfile}"
+        cd "$(dirname "${file}")" && zip -9 -r -q "${zipfile}" "${file}"
         echo "${zipfile}"
         return
     fi

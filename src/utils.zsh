@@ -19,3 +19,11 @@ function transfer::file::name {
     basefile="$(basename "${filename}" "${extension}")"
     echo "${basefile}"
 }
+
+# convert string to slug
+function transfer::string::slug {
+    local data slug
+    data="${1}"
+    slug="$(echo "${data}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')"
+    echo "${slug}"
+}

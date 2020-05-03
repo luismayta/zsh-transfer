@@ -6,7 +6,7 @@ function transfer::file::extension {
     local extension filename
     filename="${1}"
     transfer::file::exists "${filename}"
-    extension="$(echo "${filename}" | awk -F . '{print $NF}')"
+    extension="${filename##*.}"
     echo ".${extension}"
 }
 

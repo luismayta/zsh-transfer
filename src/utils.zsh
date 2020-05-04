@@ -33,3 +33,12 @@ function transfer::string::slug {
     slug="$(echo "${data}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')"
     echo "${slug}"
 }
+
+# get file slug
+function transfer::file::slug {
+    local file filename
+    file="${1}"
+    transfer::file::exists "${file}"
+    filename=$(transfer::string::slug "${file}")
+    transfer::string::slug "${filename}"
+}

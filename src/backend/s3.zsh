@@ -8,30 +8,24 @@ function transfer::validation {
     [ -z "${AWS_DEFAULT_REGION}" ] && message_warning "AWS_DEFAULT_REGION is neccesary"
 }
 
-function transfer::file::slug {
-    local file basefile
-    file="${1}"
-    basefile="$(basename "${file}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')"
-    echo "${basefile}"
-}
 
 # Defines convert file to file and if is directory zip .
 function transfer::file::convert {
-    local file zipfile slugfile
+    local file zipfile filename extension uuid slugname responsefile
     file="${1}"
-    if [ ! -e "${file}" ]; then
-        message_warning "File ${file} doesn't exists."
-        return
-    fi
-    slugfile=$(transfer::file::slug "${file}")
+    transfer::file::exists "${file}"
+    filename=$(transfer::file::name "${file}")
+    uuid=$(transfer::uuid::value)
+    extension=$(transfer::file::extension "${file}")
+    slugname="$(transfer::string::slug "${filename}").${uuid}"
 
     if [ -d "${file}" ]; then
-        zipfile=$( mktemp -t "${slugfile}".zip )
+        zipfile="${slugname}.zip"
         cd "$(dirname "${file}")" && zip -9 -r -q "${zipfile}" "${file}"
         echo "${zipfile}"
         return
     fi
-    responsefile=$( mktemp -t "${slugfile}")
+    responsefile="${slugname}${extension}"
     cd "$(dirname "${file}")" && cp -rf "${file}" "${responsefile}"
     echo "${responsefile}"
 }

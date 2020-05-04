@@ -42,3 +42,21 @@ function transfer::file::slug {
     filename=$(transfer::string::slug "${file}")
     transfer::string::slug "${filename}"
 }
+
+function transfer::date::iso {
+    local format_date expiry_date expiry_days
+    format_date="%Y-%m-%dT%H:%M:%SZ"
+    expiry_days="${1}"
+    if [ -z "${expiry_days}" ]; then
+        message_warning "please add one value"
+        return
+    fi
+
+    if [ "$(uname)" = "Darwin" ]; then
+        expiry_date=$( date -u -v "${expiry_days}" +"${format_date}")
+        echo "${expiry_date}"
+        return
+    fi
+    expiry_date=$( date -u -d "${expiry_days}" +"${format_date}")
+    echo "${expiry_date}"
+}

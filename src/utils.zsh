@@ -12,8 +12,10 @@ function transfer::file::extension {
     local extension filename
     filename="${1}"
     transfer::file::exists "${filename}"
-    extension="${filename##*.}"
-    echo ".${extension}"
+    extension="$(echo "${filename}" | awk -F . '{if (NF>1) {print $NF}}')"
+    if [ -n "${extension}" ]; then
+        echo ".${extension}"
+    fi
 }
 
 # get name of file

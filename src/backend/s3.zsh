@@ -38,7 +38,10 @@ function transfer {
         return
     fi
     file=$(transfer::file::convert "${1}")
+    message_info "File generated: ${file}"
     aws s3 cp "${file}" "${TRANSFER_REPOSITORY}" --acl public-read --expires "$(transfer::date::iso +7d)"
+    message_success "File upload: ${file}"
+    transfer::file::exists "${file}" && rm -rf "${file}" && message_success "file deleted ${file}"
 }
 
 transfer::validation

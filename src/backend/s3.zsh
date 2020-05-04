@@ -38,7 +38,7 @@ function transfer {
         return
     fi
     file=$(transfer::file::convert "${1}")
-    aws s3 cp "${file}" "${TRANSFER_REPOSITORY}" --acl public-read
+    aws s3 cp "${file}" "${TRANSFER_REPOSITORY}" --acl public-read --expiry-days 7
 }
 
 transfer::validation

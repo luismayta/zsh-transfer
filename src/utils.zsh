@@ -1,6 +1,12 @@
 #!/usr/bin/env ksh
 # -*- coding: utf-8 -*-
 
+# show value for uuid
+function transfer::uuid::value {
+    openssl rand -hex 4
+}
+
+
 # get extension of file
 function transfer::file::extension {
     local extension filename

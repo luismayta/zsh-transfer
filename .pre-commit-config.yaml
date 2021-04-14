@@ -15,7 +15,7 @@ repos:
         args:
           - --exclude=SC1072,SC1073,SC2068
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.1.0
+    rev: v1.2.1
     hooks:
       - id: python-safety-dependencies-check
   - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit

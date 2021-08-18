@@ -106,7 +106,7 @@ repos:
         args: [--config=prettier.config.js]
         exclude: lib|node_modules
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.25.0 # Use the sha / tag you want to point at
+    rev: v7.32.0 # Use the sha / tag you want to point at
     hooks:
       - id: eslint
         args: [--fix]

@@ -43,7 +43,7 @@
     "babel": "^6.23.0",
     "babel-eslint": "^10.1.0",
     "concurrently": "^7.1.0",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^6.0.0",
     "lint-staged": "^12.4.1",

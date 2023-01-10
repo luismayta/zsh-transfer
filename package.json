@@ -34,7 +34,7 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.0",
+    "@commitlint/cli": "^17.4.1",
     "@commitlint/config-conventional": "^17.4.0",
     "@equipindustry/eslint-config": "^0.3.4",
     "@equipindustry/prettierrc": "^0.2.0",

@@ -50,7 +50,7 @@
     "prettier": "^2.8.8",
     "prettier-tslint": "^0.4.2",
     "rimraf": "^5.0.0",
-    "semantic-release": "^21.0.1",
+    "semantic-release": "^21.0.2",
     "typescript": "^5.0.4"
   },
   "dependencies": {}
